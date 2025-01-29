@@ -13,6 +13,7 @@ import { UserModule } from 'src/app/user/user.module';
       ...mikroOrmConfig,
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

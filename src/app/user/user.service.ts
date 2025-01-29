@@ -3,23 +3,23 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@src/app/user/user.entity';
 import { CreateUserDto } from 'src/app/user/user.dto';
 import { UserRepository } from 'src/app/user/user.repository';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: UserRepository,
-  ) {
-    // Debugging message, typically removed in production
-    console.log('UserRepository injected:', this.userRepository);
-  }
+  ) {}
 
   // Create a new user
   async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const password = 'random_password';
+    const hashPassword = await bcrypt.hash(password, 10);
     const user = this.userRepository.create({
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       email: createUserDto.email,
-      password: createUserDto.password, // You may want to hash this before saving
+      password: hashPassword, // You may want to hash this before saving
     });
 
     // Persist the user and return the created user

@@ -1,9 +1,4 @@
-import {
-  Entity,
-  EntityRepositoryType,
-  PrimaryKey,
-  Property,
-} from '@mikro-orm/core';
+import { Entity, EntityRepositoryType, Property } from '@mikro-orm/core';
 import { UserRepository } from '@src/app/user/user.repository';
 import { PrimaryEntity } from '@src/common/entities/primary.entity';
 
@@ -12,13 +7,6 @@ import { PrimaryEntity } from '@src/common/entities/primary.entity';
 })
 export class User extends PrimaryEntity {
   // Primary key for the `users` table
-  @PrimaryKey({
-    fieldName: 'user_id', // Maps to the `user_id` column in the database
-    unique: true,
-    nullable: true,
-    autoincrement: true,
-  })
-  userId!: string;
 
   @Property({ fieldName: 'first_name', nullable: true })
   firstName: string;

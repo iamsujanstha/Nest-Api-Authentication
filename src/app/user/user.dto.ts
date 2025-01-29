@@ -4,7 +4,7 @@ import { ValidateIfExists } from 'src/decorators/validation.decorator';
 
 export enum UserType {
   ADMIN = 'admin',
-  CLIEND = 'client',
+  CLIENT = 'client',
 }
 
 export class CreateUserDto {
@@ -27,9 +27,11 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsNotEmpty()
+  @IsOptional()
   password: string;
 
   @ApiProperty()
   @IsEnum(UserType)
+  @IsOptional()
   type: UserType;
 }

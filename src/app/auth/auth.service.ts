@@ -1,26 +1,57 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { UserRepository } from '@src/app/user/user.repository';
+import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from '@src/app/auth/auth.dto';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { RunTimeException } from '@src/exception/runtime.exception';
+import * as bcrypt from 'bcrypt';
+import { User } from '@src/app/user/user.entity';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(
+    private jwtService: JwtService,
+    private userRepo: UserRepository,
+  ) {}
+
+  async login(loginDto: LoginDto) {
+    const user = await this.userRepo.getUserInfo(loginDto.username);
+
+    if (!user) {
+      throw new RunTimeException(HttpStatus.NOT_FOUND, 'User not found');
+    }
+
+    console.log({ loginDto }, { user });
+    const hashed = await bcrypt.hash('sujan123', 10);
+    console.log(hashed);
+    const matchPassword = await bcrypt.compare(
+      loginDto.password,
+      user.password,
+    );
+
+    if (!matchPassword) {
+      throw new RunTimeException(
+        HttpStatus.BAD_REQUEST,
+        'Password did not match',
+      );
+    }
+
+    return this.getTokens({ email: loginDto.username, id: user?.id });
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async init(user: User) {
+    return {
+      userInfo: user,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async getTokens(payload: any) {
+    const [at, rt] = await Promise.all([
+      this.jwtService.signAsync(payload, { expiresIn: 60 * 60 * 15 }),
+      this.jwtService.signAsync(payload, { expiresIn: 60 * 60 * 24 * 7 }),
+    ]);
+    return {
+      access_token: at,
+      refresh_token: rt,
+    };
   }
 }
