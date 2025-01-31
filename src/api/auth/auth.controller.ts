@@ -1,12 +1,12 @@
 import { Protected, Public } from '@src/decorators/public';
 
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { AuthService } from '@src/app/auth/auth.service';
-import { LoginDto } from '@src/app/auth/auth.dto';
+import { AuthService } from '@src/api/auth/auth.service';
+import { LoginDto } from '@src/api/auth/auth.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { ResponseMessage } from '@src/decorators/response.decorator';
 import { SuccessMessage } from '@src/utils';
-import { User } from '@src/app/user/user.entity';
+import { User } from '@src/database/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {

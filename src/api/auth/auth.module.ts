@@ -3,8 +3,8 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { JwtModule } from '@nestjs/jwt';
-import { User } from '@src/app/user/user.entity';
-import { UserRepository } from '@src/app/user/user.repository';
+import { User } from '@src/database/entities/user.entity';
+import { UserRepository } from '@src/api/user/user.repository';
 
 @Module({
   controllers: [AuthController],

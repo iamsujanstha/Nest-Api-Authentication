@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { ValidateIfExists } from 'src/decorators/validation.decorator';
 
@@ -25,6 +26,7 @@ export class CreateUserDto {
   @ValidateIfExists({ table: 'users', column: 'email', check: 'unique' })
   email: string;
 
+  @Exclude() // ❌ Exclude this field from the response
   @ApiProperty()
   @IsNotEmpty()
   @IsOptional()

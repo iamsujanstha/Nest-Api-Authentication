@@ -1,9 +1,9 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { UserController } from 'src/app/user/user.controller';
-import { User } from 'src/app/user/user.entity';
-import { UserRepository } from 'src/app/user/user.repository';
-import { UserService } from 'src/app/user/user.service';
+import { UserController } from '@src/api/user/user.controller';
+import { User } from '@src/database/entities/user.entity';
+import { UserRepository } from '@src/api/user/user.repository';
+import { UserService } from '@src/api/user/user.service';
 
 @Module({
   // The `forFeature` method is used to register specific entities (in this case, `User`)

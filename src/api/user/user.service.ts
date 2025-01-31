@@ -1,8 +1,8 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { User } from '@src/app/user/user.entity';
-import { CreateUserDto } from 'src/app/user/user.dto';
-import { UserRepository } from 'src/app/user/user.repository';
+import { User } from '@src/database/entities/user.entity';
+import { CreateUserDto } from '@src/api/user/user.dto';
+import { UserRepository } from '@src/api/user/user.repository';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -28,8 +28,9 @@ export class UserService {
   }
 
   // Find all users
-  async findAll(): Promise<User[]> {
-    return this.userRepository.findAll();
+  async findAll(): Promise<Omit<User, 'password'>[]> {
+    const users = await this.userRepository.findAll();
+    return users;
   }
 
   // Find a single user by ID

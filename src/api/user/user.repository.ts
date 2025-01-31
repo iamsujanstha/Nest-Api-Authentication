@@ -1,6 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { User } from 'src/app/user/user.entity';
+import { User } from '@src/database/entities/user.entity';
 
 export class UserRepository extends EntityRepository<User> {
   constructor(

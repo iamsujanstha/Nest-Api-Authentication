@@ -1,5 +1,5 @@
 import { Entity, EntityRepositoryType, Property } from '@mikro-orm/core';
-import { UserRepository } from '@src/app/user/user.repository';
+import { UserRepository } from '@src/api/user/user.repository';
 import { PrimaryEntity } from '@src/common/entities/primary.entity';
 
 @Entity({

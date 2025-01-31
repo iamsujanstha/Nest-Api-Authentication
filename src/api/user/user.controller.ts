@@ -8,8 +8,9 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from 'src/app/user/user.dto';
-import { UserService } from 'src/app/user/user.service';
+import { Serialize } from '@src/interceptors/serialize.interceptor';
+import { CreateUserDto } from '@src/api/user/user.dto';
+import { UserService } from '@src/api/user/user.service';
 import { ResponseMessage } from 'src/decorators/response.decorator';
 import { SuccessMessage } from 'src/utils';
 
@@ -27,6 +28,7 @@ export class UserController {
 
   @Get()
   @ResponseMessage(SuccessMessage.FETCH, 'User')
+  @Serialize(CreateUserDto)
   async findAll() {
     try {
       return await this.userService.findAll();
